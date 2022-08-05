@@ -1,22 +1,34 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CrudComponent } from './pages/crud/crud.component';
-import { ActualizarUsuarioComponent } from './crud/actualizar-usuario/actualizar-usuario.component';
-import { RegistrarUsuarioComponent } from './crud/registrar-usuario/registrar-usuario.component';
+import { ActualizarEmpresaComponent } from './pages/actualizar-empresa/actualizar-empresa.component';
+import { RegistrarEmpresaComponent } from './pages/registrar-empresa/registrar-empresa.component';
+
+
 
 @NgModule({
+
+  
   declarations: [
     AppComponent,
     CrudComponent,
-    ActualizarUsuarioComponent,
-    RegistrarUsuarioComponent
+    ActualizarEmpresaComponent,
+    RegistrarEmpresaComponent
+  
+    
   ],
+  
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
