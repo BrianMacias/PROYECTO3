@@ -21,7 +21,7 @@ export class CrudComponent implements OnInit {
   obtenerEmpresa() {
     this.empresaService.getEmpresas()
       .then((response: any) => {
-        this.empresas = response.cont.empresa;
+        this.empresas = response.cont.empresas;
         console.log(this.empresas);
       })
       .catch((error: any) => {
