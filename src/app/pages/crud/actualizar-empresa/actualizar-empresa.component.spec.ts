@@ -11,7 +11,9 @@ describe('ActualizarEmpresaComponent', () => {
       declarations: [ ActualizarEmpresaComponent ]
     })
     .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ActualizarEmpresaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

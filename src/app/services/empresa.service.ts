@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../../environments/environment.prod';
 import { EmpresaModel } from '../models/Empresa.model';
 
 @Injectable({
@@ -13,22 +13,22 @@ export class EmpresaService {
   matricula: string = environment.matricula;
 
   constructor(private readonly http: HttpClient) { }
-  getUsuarios(){
+  getEmpresas(){
     return lastValueFrom(this.http.get(`${this.url}`,{params: {matricula: this.matricula}}));
   }
 
-  postUsuario(empresa: EmpresaModel){
+  postEmpresa(empresa: EmpresaModel){
     return lastValueFrom(this.http.post(`${this.url}`, empresa, {params: {matricula: this.matricula}}));
   }
 
-  getUsuario(idEmpresa: string){
+  getEmpresa(idEmpresa: string){
     return lastValueFrom(this.http.get(`${this.url}/${idEmpresa}`,{params: {matricula: this.matricula}}))
   }
 
-  putUsuarios(empresa: EmpresaModel, idEmpresa: String){
+  putEmpresas(empresa: EmpresaModel, idEmpresa: String){
     return lastValueFrom(this.http.put(`${this.url}/${idEmpresa}`, empresa, {params: {matricula: this.matricula}}));
   }
- deleteUsuarios(idEmpresa: any) {
+ deleteEmpresas(idEmpresa: any) {
   return lastValueFrom(this.http.delete(`${this.url}/${idEmpresa}`, {params: {matricula: this.matricula}}));
     }
 }

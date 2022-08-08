@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpresaModel } from 'src/app/models/Empresa.model';
+import { EmpresaService } from 'src/app/services/empresa.service';
 import Swal from 'sweetalert2';
-import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
   selector: 'app-crud',
@@ -9,79 +9,73 @@ import { EmpresaService } from '../../services/empresa.service';
   styleUrls: ['./crud.component.css']
 })
 export class CrudComponent implements OnInit {
-
-  mostrarActualizar: boolean = false;
   empresas: EmpresaModel[] = [];
   idEmpresa: string = '';
 
-  constructor(private readonly EmpresaService: EmpresaService) { }
+  constructor(private empresaService: EmpresaService) {}
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
- 
-   }
- /*
-   counter(i: number){
-     return new Array(i);
-   }
- */
- 
-   obtenerUsuarios(){
-     this.EmpresaService.getUsuarios()
-     .then((res: any) => {
-       this.empresas = res.cont.empresas;
- 
-     })
-     .catch((err: any) => {
-       this.empresas = [];
-     })
-   }
- 
-   actualizar(idEmpresa: any){
-     this.idEmpresa = idEmpresa;
-     this.mostrarActualizar = true;
-   }
- 
-   restablecerRegistro(){
-     this.mostrarActualizar = false;
-     this.obtenerUsuarios();
-   }
- 
-   eliminar(empresa: EmpresaModel){
-     Swal.fire({
-       icon:'question',
-       //imprimirá el mensaje de error que retorne la API
-       title: `Seguro que quiere eliminar ${empresa.strNombre} ${empresa.strRazonSocial}?`,
- 
-       showCancelButton: true,
-       confirmButtonText: "Si, quiero eliminar",
-       cancelButtonText: "cancelar"
-     })
-     .then((res) => {
-       if (res.isConfirmed) {
-         this.EmpresaService.deleteUsuarios(empresa._id)
-         .then((result:any) => {
-           Swal.fire({
-             icon: "info",
-             text: "La empresa se eliminó correctamente"
-           });
-           this.obtenerUsuarios();
-         })
-       }
-     })
-     .catch((err: any) => {
-       Swal.fire({
-         icon: "error",
-         text: "Error al eliminar empresa"
-       })
-     });
-   }
- 
-   showUpdate(idEmpresa: any){
-     this.idEmpresa = idEmpresa;
- 
-     //this.mostrarAct = !this.mostrarAct;
-     this.mostrarActualizar = true;
-   }
+    this.obtenerEmpresa();
+  }
 
+  obtenerEmpresa() {
+    this.empresaService.getEmpresas()
+      .then((response: any) => {
+        this.empresas = response.cont.empresa;
+        console.log(this.empresas);
+      })
+      .catch((error: any) => {
+        Swal.fire({
+          icon: 'error',
+          text: error.error.msg,
+        });
+      });
+  }
+
+  counter(i: number) {
+    return new Array(i);
+  }
+
+  isShown: boolean = false;
+
+  toggleShow(idEmpresa: any) {
+    this.idEmpresa = idEmpresa;
+    this.isShown = true;
+  }
+
+  restableceRegistro() {
+    this.isShown = false;
+    this.obtenerEmpresa();
+  }
+
+  eliminar(empresa: EmpresaModel) {
+    Swal.fire({
+      icon: 'question',
+      title: `¿Estas seguro que deseas eliminar a ${empresa.strNombre} ${empresa.strRazonSocial} ${empresa.strRFC} ${empresa.strDireccion} ${empresa.strUrlLogo} ${empresa.strPais}?`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: 'Si, estoy seguro',
+      denyButtonText: `Don't save`,
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.empresaService.deleteEmpresas(empresa._id)
+          .then((response: any) => {
+            Swal.fire({
+              icon: 'success',
+              text: 'Se elimino la empresa exitosamente',
+            });
+            this.obtenerEmpresa();
+          })
+          .catch((error: any) => {
+            Swal.fire({
+              icon: 'error',
+              text: 'Ha habido un error al eliminar la empresa',
+            });
+          });
+      }
+    });
+  }
 }
+

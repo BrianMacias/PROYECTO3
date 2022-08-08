@@ -1,30 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EmpresaModel } from 'src/app/models/Empresa.model';
+import { EmpresaService } from 'src/app/services/empresa.service';
 import Swal from 'sweetalert2';
-import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
   selector: 'app-registrar-empresa',
   templateUrl: './registrar-empresa.component.html',
   styleUrls: ['./registrar-empresa.component.css']
 })
+
 export class RegistrarEmpresaComponent implements OnInit {
+
   empresa: EmpresaModel = new EmpresaModel();
-  constructor(private readonly EmpresaService: EmpresaService) { }
+  @Output() emitirRegistro: EventEmitter<any> = new EventEmitter();
+  constructor(private readonly empresaService: EmpresaService) { }
 
   ngOnInit(): void {
   }
-  registrarUsuario(forma: NgForm)
+
+  registrarEmpresa(forma: NgForm)
   {
-    this.EmpresaService.postUsuario(this.empresa)
+    this.empresaService.postEmpresa(this.empresa)
     .then((response: any) => {
       Swal.fire
       ({
         icon: "success",
-        text: "Se registró la emrpesa exitosamente"
+        text: "Se registró la empresa exitosamente"
       });
       forma.reset();
+      this.emitirRegistro.emit();
     })
     .catch((error: any) => {
       Swal.fire
@@ -40,5 +45,5 @@ export class RegistrarEmpresaComponent implements OnInit {
     forma.reset();
   }
 
-
 }
+

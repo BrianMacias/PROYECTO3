@@ -7,4 +7,5 @@ export class EmpresaModel
     strDireccion: string = "";
     strUrlLogo: string = "";
     strPais: string = "";
+    
 }

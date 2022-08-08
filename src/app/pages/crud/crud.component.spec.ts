@@ -11,7 +11,9 @@ describe('CrudComponent', () => {
       declarations: [ CrudComponent ]
     })
     .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(CrudComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
